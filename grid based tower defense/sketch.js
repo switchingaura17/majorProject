@@ -2,10 +2,15 @@
 // Joshua Mason
 // 10/1/2020
 
-let grid, cellWidth, cellHeight, cellY, cellX;
+let grid, cellWidth, cellHeight, cellY, cellX, cell;
 const GRIDSIZE = 25;
-let bossBoo, minnionBoo;
+let bossBoo, bossBooScaler = 0.5; 
+let minnionBoo, minnionHealthBar, hit = 50, minnionBooScaler = 0.3;
 let baseMap, initialState;
+// let moveMinnionBoo = new Map();
+let pear;
+let round50 = false;
+let minnion;
 
 function preload() {
   bossBoo = loadImage("assets/bossBoo.png");
@@ -15,6 +20,8 @@ function preload() {
   baseMap = loadStrings("assets/1.txt");
 
   initialState = loadStrings("assets/2.txt");
+
+  pear = loadImage("assets/pear.png");
 }
 
 function setup() {
@@ -23,8 +30,6 @@ function setup() {
   for (let i = 0; i < baseMap.length; i++) {
     baseMap[i] = baseMap[i].split(",");
   }
-
-  //loop through the whole 2d array, and turn everything to numbers
   for (let y=0; y<GRIDSIZE; y++) {
     for (let x=0; x<GRIDSIZE; x++) {
       baseMap[y][x] = int(baseMap[y][x]);
@@ -34,28 +39,20 @@ function setup() {
   grid = baseMap;
   cellWidth = width / grid[0].length;
   cellHeight = height / grid.length;
+  minnionBoo = new Minnion(0, height/2);
 }
 
 function draw() {
   background(220);
 
+  // placeMinnion();
   displayBattleMap();
-}
-
-function displayBattleMap() {
-  for (let y=0; y<grid.length; y++) {
-    for (let x=0; x<grid[y].length; x++) {
-      if (grid[y][x] === 0) {
-        fill("green");
-      }
-      else {
-        fill("black");
-      }
-
-      rect(cellWidth*x, cellHeight*y, cellWidth, cellHeight);
-    }
-  }
- 
+  // moveMinnionBoo();
+  // displayMinnionBoo();
+  ifMinnionHit();
+  // minnionBoo.movingMinnion();
+  minnionBoo.displayMinnionBoo();
+  // moveMinnionBoo.set("minnionBoo", 2);
 }
 
 function generateEmptyGrid(gridSize) {
@@ -70,15 +67,60 @@ function generateEmptyGrid(gridSize) {
   return grid;
 }
 
-class Minnion {
-  cunstructor {
-    this . x = 0;
-    this.y = checkBlack();
+function displayBattleMap() {
+  for (let y=0; y<grid.length; y++) {
+    for (let x=0; x<grid[y].length; x++) {
+      if (grid[y][x] === 0) {
+        fill("green");
+      }
+      else {
+        fill("black");
+      }
+      
+      rect(cellWidth*x, cellHeight*y, cellWidth, cellHeight);
+    }
   }
   
-  checkBlack() {
-    for (let i =0; i < windowWidth; i += 5) {
-      
+}
+
+
+
+function ifMinnionHit() {
+  if (pear.radius <= minnionBoo.radius + pear.radius) {
+    for (let hit = 50; hit > 0; hit -= 10) {
+      return "hit";
     }
+  }
+}
+
+class Minnion {
+  constructor(speed, x, y) {
+    this.x = 0;
+    this.y = height / 2.2;
+    this.speed = 5;
+  }
+
+  // use as a boolean and reset using a function outside of class
+  // resetAfter50() {
+  //   for (roundNumber = 0; roundNumber < 50; roundNumber += 2) {
+  //     if (roundNumber === 50) {
+  //       console.log(roundNumber);
+  //     }
+  //   }
+  // }
+
+  // movingMinnion() {
+  //   for (let i = 0; i < windowWidth; i+=2) {
+  //     if (i === 1) {
+  //       image(minnionBoo, 0, height / 2.2, minnionBooScaler * minnionBoo.width, minnionBooScaler * minnionBoo.height);
+  //     }
+  //   }
+  // }
+
+  displayMinnionBoo() {
+    image(minnionBoo, 0, height / 2.2, minnionBooScaler * minnionBoo.width, minnionBooScaler * minnionBoo.height);
+  
+    fill("red");
+    minnionHealthBar = rect(30, height / 2.15, hit, 10);
   }
 }
