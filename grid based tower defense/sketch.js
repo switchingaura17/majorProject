@@ -10,7 +10,8 @@ let baseMap, initialState;
 // let moveMinnionBoo = new Map();
 let pear;
 let round50 = false;
-let minnion;
+let minBoo, luigi;
+let i;
 
 function preload() {
   bossBoo = loadImage("assets/bossBoo.png");
@@ -22,6 +23,8 @@ function preload() {
   initialState = loadStrings("assets/2.txt");
 
   pear = loadImage("assets/pear.png");
+
+  luigi = loadImage("assets/luigi.png");
 }
 
 function setup() {
@@ -39,7 +42,8 @@ function setup() {
   grid = baseMap;
   cellWidth = width / grid[0].length;
   cellHeight = height / grid.length;
-  minnionBoo = new Minnion(0, height/2);
+  minBoo = new Minnion(this.speed, 0, height/2);
+  
 }
 
 function draw() {
@@ -51,7 +55,7 @@ function draw() {
   // displayMinnionBoo();
   ifMinnionHit();
   // minnionBoo.movingMinnion();
-  minnionBoo.displayMinnionBoo();
+  minBoo.displayMinnionBoo();
   // moveMinnionBoo.set("minnionBoo", 2);
 }
 
@@ -83,14 +87,16 @@ function displayBattleMap() {
   
 }
 
-
-
 function ifMinnionHit() {
-  if (pear.radius <= minnionBoo.radius + pear.radius) {
+  if (pear.radius <= minnionBoo.width/2 && minnionBoo.height/2  + pear.radius) {
     for (let hit = 50; hit > 0; hit -= 10) {
-      return "hit";
+      return hit;
     }
   }
+}
+
+function displayBattleLuigi() {
+  image();
 }
 
 class Minnion {
@@ -99,7 +105,6 @@ class Minnion {
     this.y = height / 2.2;
     this.speed = 5;
   }
-
   // use as a boolean and reset using a function outside of class
   // resetAfter50() {
   //   for (roundNumber = 0; roundNumber < 50; roundNumber += 2) {
@@ -109,17 +114,17 @@ class Minnion {
   //   }
   // }
 
-  // movingMinnion() {
-  //   for (let i = 0; i < windowWidth; i+=2) {
-  //     if (i === 1) {
-  //       image(minnionBoo, 0, height / 2.2, minnionBooScaler * minnionBoo.width, minnionBooScaler * minnionBoo.height);
-  //     }
-  //   }
-  // }
+  movingMinnion() {
+    for (i = 0; i < windowWidth; i+=2) {
+      if (i === 1) {
+        this.displayMinnionBoo();
+      }
+    }
+  }
 
   displayMinnionBoo() {
     image(minnionBoo, 0, height / 2.2, minnionBooScaler * minnionBoo.width, minnionBooScaler * minnionBoo.height);
-  
+    
     fill("red");
     minnionHealthBar = rect(30, height / 2.15, hit, 10);
   }
