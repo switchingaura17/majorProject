@@ -5,7 +5,7 @@
 let grid, cellWidth, cellHeight, cellY, cellX, cell;
 const GRIDSIZE = 25;
 let bossBoo, bossBooScaler = 0.5; 
-let minnionBoo, minnionHealthBar, hit = 50, minnionBooScaler = 0.3;
+let minnionBoo, hit = 50, minnionBooScaler = 0.3;
 let baseMap, initialState;
 // let moveMinnionBoo = new Map();
 let pear;
@@ -42,7 +42,7 @@ function setup() {
   grid = baseMap;
   cellWidth = width / grid[0].length;
   cellHeight = height / grid.length;
-  minBoo = new Minnion(this.speed, 0, height/2);
+  minBoo = new Minnion(3, 0, 325);
   
 }
 
@@ -54,7 +54,8 @@ function draw() {
   // moveMinnionBoo();
   // displayMinnionBoo();
   ifMinnionHit();
-  // minnionBoo.movingMinnion();
+  minBoo.playerHealthBar();
+  minBoo.movingMinnion();
   minBoo.displayMinnionBoo();
   // moveMinnionBoo.set("minnionBoo", 2);
 }
@@ -84,12 +85,14 @@ function displayBattleMap() {
       rect(cellWidth*x, cellHeight*y, cellWidth, cellHeight);
     }
   }
-  
 }
 
+function showHealthBar() {
+  rect(50, height / 2.15, hit, 10);
+}
 function ifMinnionHit() {
   if (pear.radius <= minnionBoo.width/2 && minnionBoo.height/2  + pear.radius) {
-    for (let hit = 50; hit > 0; hit -= 10) {
+    for (hit = 50; hit > 0; hit -= 10) {
       return hit;
     }
   }
@@ -101,10 +104,12 @@ function displayBattleLuigi() {
 
 class Minnion {
   constructor(speed, x, y) {
-    this.x = 0;
-    this.y = height / 2.2;
-    this.speed = 5;
+    this.x = x;
+    this.y = y;
+    this.speed = speed;
+    this.state = 1;
   }
+
   // use as a boolean and reset using a function outside of class
   // resetAfter50() {
   //   for (roundNumber = 0; roundNumber < 50; roundNumber += 2) {
@@ -115,17 +120,59 @@ class Minnion {
   // }
 
   movingMinnion() {
-    for (i = 0; i < windowWidth; i+=2) {
-      if (i === 1) {
-        this.displayMinnionBoo();
+    if (this.state === 1) {
+      this.x += this.speed;
+      if (this.x >= 450) {
+        this.state = 2;
+      }
+    }
+    else if (this.state === 2) {
+      this.y -= this.speed;
+      if (this.y <= 150) {
+        this.state = 3;
+      }
+    }
+    else if (this.state === 3) {
+      this.x += this.speed;
+      if (this.x >= 1125) {
+        this.state = 4;
+      }
+    }
+    else if (this.state === 4) {
+      this.y += this.speed;
+      if (this.y >= 295) {
+        this.state = 5;
+      }
+    }
+    else if (this.state === 5) {
+      this.x += this.speed;
+      if (this.x >= windowWidth) {
+        this.state = 6;
       }
     }
   }
 
   displayMinnionBoo() {
-    image(minnionBoo, 0, height / 2.2, minnionBooScaler * minnionBoo.width, minnionBooScaler * minnionBoo.height);
+    image(minnionBoo, this.x, this.y, minnionBooScaler * minnionBoo.width, minnionBooScaler * minnionBoo.height);
     
     fill("red");
-    minnionHealthBar = rect(30, height / 2.15, hit, 10);
+    rect(this.x+30, this.y, hit, 10);
+  }
+
+  playerHealthBar() {
+    let j = 500;
+    if (this.state === 6) {
+      j -= 50;
+    }
+
+    fill("blue");
+    rect(10, 10, j, 15);
+  }
+}
+
+
+class Tower {
+  constructor() {
+    
   }
 }

@@ -6,19 +6,22 @@ enter the description of my project here.
 
 ## need to have list 
 
--moving characters up to level 50 before restart and a message about added bonus that may exist
-
--money system
-
--working detection system
-
 -moving characters
+
+-spawning minnions properly
 
 -shooting bullet("pears")
 
--doing levels and spawning minnions properly
+-working detection system
+
 
 ## nice to have list
+
+-doing levels
+
+-money system
+
+-moving characters up to level 50 before restart and a message about added bonus that may exist
 
 -anticheat system
 
