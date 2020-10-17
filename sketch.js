@@ -5,7 +5,7 @@
 let grid, cellWidth, cellHeight, cellY, cellX, cell;
 const GRIDSIZE = 25;
 let bossBoo, bossBooScaler = 0.5; 
-let minnionBoo, hit = 50, minnionBooScaler = 0.3;
+let minnionBoo, hit = 50, minnionBooScaler = 0.3, luigiScaler = 0.3;
 let baseMap, initialState;
 // let moveMinnionBoo = new Map();
 let pear;
@@ -42,7 +42,7 @@ function setup() {
   grid = baseMap;
   cellWidth = width / grid[0].length;
   cellHeight = height / grid.length;
-  minBoo = new Minnion(3, 0, 325);
+  minBoo = new Minnion(3, 0, 360);
   
 }
 
@@ -122,13 +122,13 @@ class Minnion {
   movingMinnion() {
     if (this.state === 1) {
       this.x += this.speed;
-      if (this.x >= 450) {
+      if (this.x >= 430) {
         this.state = 2;
       }
     }
     else if (this.state === 2) {
       this.y -= this.speed;
-      if (this.y <= 150) {
+      if (this.y <= 160) {
         this.state = 3;
       }
     }
@@ -140,7 +140,7 @@ class Minnion {
     }
     else if (this.state === 4) {
       this.y += this.speed;
-      if (this.y >= 295) {
+      if (this.y >= 320) {
         this.state = 5;
       }
     }
@@ -172,7 +172,13 @@ class Minnion {
 
 
 class Tower {
-  constructor() {
-    
+  constructor(x, y, ) {
+    this.x = x;
+    this.y = y;
+
+  }
+
+  displayLuigiTower() {
+    image(luigi, this.x, this.y, luigiScaler * luigi.width, luigiScaler * luigi.height);
   }
 }
