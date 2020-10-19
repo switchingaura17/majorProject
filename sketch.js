@@ -7,10 +7,12 @@ const GRIDSIZE = 25;
 let bossBoo, bossBooScaler = 0.5; 
 let minnionBoo, hit = 50, minnionBooScaler = 0.3, luigiScaler = 0.3;
 let baseMap, initialState;
-// let moveMinnionBoo = new Map();
 let pear;
 let round50 = false;
-let minBoo, luigi;
+let luigi;
+let roundNumber = 0;
+let milli;
+let theBoos = [];
 
 function preload() {
   bossBoo = loadImage("assets/bossBoo.png");
@@ -38,26 +40,37 @@ function setup() {
     }
   }
 
+  milli = millis();
+
+  
   grid = baseMap;
   cellWidth = width / grid[0].length;
   cellHeight = height / grid.length;
-  minBoo = new Minnion(3, 0, height / 2.2);
-  
+
+  window.setInterval(spawnMinnion, 2000);
+ 
 }
 
 function draw() {
   background(220);
 
-  // placeMinnion();
   displayBattleMap();
-  // moveMinnionBoo();
-  // displayMinnionBoo();
-  ifMinnionHit();
-  minBoo.playerHealthBar();
-  minBoo.movingMinnion();
-  minBoo.displayMinnionBoo();
+
+  for (let i=0; i<theBoos.length; i++) {
+    theBoos[i].playerHealthBar();
+    theBoos[i].movingMinnion();
+    theBoos[i].displayMinnionBoo();
+    theBoos[i].ifMinnionHit();
+  }
+
   // moveMinnionBoo.set("minnionBoo", 2);
 }
+
+function spawnMinnion() {
+  let minBoo = new Minnion(3, 0, height / 2.2);
+  theBoos.push(minBoo);
+}
+
 
 function generateEmptyGrid(gridSize) {
   let grid = [];
@@ -88,13 +101,6 @@ function displayBattleMap() {
 
 function showHealthBar() {
   rect(50, height / 2.15, hit, 10);
-}
-function ifMinnionHit() {
-  if (pear.radius <= minnionBoo.width/2 && minnionBoo.height/2  + pear.radius) {
-    for (hit = 50; hit > 0; hit -= 10) {
-      return hit;
-    }
-  }
 }
 
 function displayBattleLuigi() {
@@ -150,14 +156,7 @@ class Minnion {
       }
     }
   }
-
-  displayMinnionBoo() {
-    image(minnionBoo, this.x, this.y, minnionBooScaler * minnionBoo.width, minnionBooScaler * minnionBoo.height);
-    
-    fill("red");
-    rect(this.x+30, this.y, hit, 10);
-  }
-
+  
   playerHealthBar() {
     let j = 500;
     if (this.state === 6) {
@@ -167,8 +166,23 @@ class Minnion {
     fill("blue");
     rect(10, 10, j, 15);
   }
-}
+  
+  ifMinnionHit() {
+    if (pear.radius <= minnionBoo.width/2 && minnionBoo.height/2  + pear.radius) {
+      for (hit = 50; hit > 0; hit -= 10) {
+        return hit;
+      }
+    }
+  }
+  displayMinnionBoo() {
+    image(minnionBoo, this.x, this.y, minnionBooScaler * minnionBoo.width, minnionBooScaler * minnionBoo.height);
+    
+    fill("red");
+    rect(this.x+30, this.y, hit, 10);
+  }
 
+
+}
 
 class Tower {
   constructor(x, y, shootingSpeed) {
@@ -180,4 +194,8 @@ class Tower {
   displayLuigiTower() {
     image(luigi, this.x, this.y, luigiScaler * luigi.width, luigiScaler * luigi.height);
   }
+}
+
+function mousePressed() {
+  
 }
