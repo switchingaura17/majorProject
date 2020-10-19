@@ -2,7 +2,7 @@
 // Joshua Mason
 // 10/1/2020
 
-let grid, cellWidth, cellHeight, cellY, cellX, cell;
+let grid, cellWidth, cellHeight, cellY, cellX, cell, i;
 const GRIDSIZE = 25;
 let bossBoo, bossBooScaler = 0.5; 
 let minnionBoo, hit = 50, minnionBooScaler = 0.3, luigiScaler = 0.3;
@@ -11,7 +11,6 @@ let baseMap, initialState;
 let pear;
 let round50 = false;
 let minBoo, luigi;
-let i;
 
 function preload() {
   bossBoo = loadImage("assets/bossBoo.png");
@@ -42,7 +41,7 @@ function setup() {
   grid = baseMap;
   cellWidth = width / grid[0].length;
   cellHeight = height / grid.length;
-  minBoo = new Minnion(3, 0, 360);
+  minBoo = new Minnion(3, 0, height / 2.2);
   
 }
 
@@ -122,25 +121,25 @@ class Minnion {
   movingMinnion() {
     if (this.state === 1) {
       this.x += this.speed;
-      if (this.x >= 430) {
+      if (this.x >= width / 3.7) {
         this.state = 2;
       }
     }
     else if (this.state === 2) {
       this.y -= this.speed;
-      if (this.y <= 160) {
+      if (this.y <= height / 4.5) {
         this.state = 3;
       }
     }
     else if (this.state === 3) {
       this.x += this.speed;
-      if (this.x >= 1125) {
+      if (this.x >= width / 1.4) {
         this.state = 4;
       }
     }
     else if (this.state === 4) {
       this.y += this.speed;
-      if (this.y >= 320) {
+      if (this.y >= height / 2.4) {
         this.state = 5;
       }
     }
@@ -172,10 +171,10 @@ class Minnion {
 
 
 class Tower {
-  constructor(x, y, ) {
+  constructor(x, y, shootingSpeed) {
     this.x = x;
     this.y = y;
-
+    this.shootingSpeed;
   }
 
   displayLuigiTower() {
