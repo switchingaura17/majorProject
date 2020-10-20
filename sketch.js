@@ -13,6 +13,7 @@ let luigi;
 let roundNumber = 0;
 let milli;
 let theBoos = [];
+let luigiTower;
 
 function preload() {
   bossBoo = loadImage("assets/bossBoo.png");
@@ -42,7 +43,7 @@ function setup() {
 
   milli = millis();
 
-  
+  luigiTower = new Tower(50, 100, 10);
   grid = baseMap;
   cellWidth = width / grid[0].length;
   cellHeight = height / grid.length;
@@ -57,12 +58,13 @@ function draw() {
   displayBattleMap();
 
   for (let i=0; i<theBoos.length; i++) {
-    theBoos[i].playerHealthBar();
     theBoos[i].movingMinnion();
     theBoos[i].displayMinnionBoo();
     theBoos[i].ifMinnionHit();
+    theBoos[i].playerHealthBar();
   }
 
+  luigiTower.displayLuigiTower();
   // moveMinnionBoo.set("minnionBoo", 2);
 }
 
@@ -97,14 +99,6 @@ function displayBattleMap() {
       rect(cellWidth*x, cellHeight*y, cellWidth, cellHeight);
     }
   }
-}
-
-function showHealthBar() {
-  rect(50, height / 2.15, hit, 10);
-}
-
-function displayBattleLuigi() {
-  image();
 }
 
 class Minnion {
@@ -151,7 +145,7 @@ class Minnion {
     }
     else if (this.state === 5) {
       this.x += this.speed;
-      if (this.x >= windowWidth) {
+      if (this.x === windowWidth) {
         this.state = 6;
       }
     }
@@ -194,8 +188,17 @@ class Tower {
   displayLuigiTower() {
     image(luigi, this.x, this.y, luigiScaler * luigi.width, luigiScaler * luigi.height);
   }
+
+  moveLuigiTower() {
+    if (mousePressed()) {
+      this.x = mouseX;
+      this.y = mouseY;
+    }
+  }
 }
 
 function mousePressed() {
-  
+  if (mouseX === luigiTower(X) && mouseY === luigiTower(Y)) {
+    tint(, [v2], [v3], [a]);
+  }
 }
