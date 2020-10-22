@@ -198,5 +198,7 @@ class Tower {
 }
 
 function mousePressed() {
-  
+  if (mouseX === luigiTower(X) && mouseY === luigiTower(Y)) {
+    tint(, [v2], [v3], [a]);
+  }
 }
