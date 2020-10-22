@@ -5,7 +5,7 @@
 let grid, cellWidth, cellHeight, cellY, cellX, cell, i;
 const GRIDSIZE = 25;
 let bossBoo, bossBooScaler = 0.5; 
-let minnionBoo, hit = 50, minnionBooScaler = 0.3, luigiScaler = 0.3;
+let minnionBoo, hit = 50, minnionBooScaler = 0.3, luigiScaler = 0.3, pearScaler = 0.3;
 let baseMap, initialState;
 let pear;
 let round50 = false;
@@ -64,6 +64,7 @@ function draw() {
     theBoos[i].playerHealthBar();
   }
 
+  luigiTower.update();
   luigiTower.displayLuigiTower();
   // moveMinnionBoo.set("minnionBoo", 2);
 }
@@ -183,22 +184,47 @@ class Tower {
     this.x = x;
     this.y = y;
     this.shootingSpeed;
+    this.selected = false;
   }
 
   displayLuigiTower() {
     image(luigi, this.x, this.y, luigiScaler * luigi.width, luigiScaler * luigi.height);
   }
+  
+  checkForClick() {
+    if (mouseX > this.x && mouseX < this.x +  luigiScaler * luigi.width && mouseY > this.y && mouseY < this.y + luigiScaler * luigi.height) {
+      this.selected = true;
+    }
+  }
+  endClick() {
+    this.selected = false;
+  }
 
-  moveLuigiTower() {
-    if (mousePressed()) {
+  update() {
+    if (this.selected) {
       this.x = mouseX;
       this.y = mouseY;
     }
   }
-}
+
+  displayPears() {
+    image(pear, this.x, this.y, pearScaler * pear.width, pearScaler * pear.height);
+  }
+
+  movingPears() {
+    if () {
+      this.x = pearX;
+      this.y = pearY;
+      pearX++;
+      pearY++;
+    }
+  }
+} 
 
 function mousePressed() {
-  if (mouseX === luigiTower(X) && mouseY === luigiTower(Y)) {
-    tint(, [v2], [v3], [a]);
-  }
+  luigiTower.checkForClick();
+}
+
+function mouseReleased() {
+  luigiTower.endClick();
 }

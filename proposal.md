@@ -2,7 +2,7 @@
 
 ## description
 
-enter the description of my project here.
+i am building a grid based tower defense
 
 ## need to have list 
 
