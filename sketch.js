@@ -14,6 +14,7 @@ let roundNumber = 0;
 let milli;
 let theBoos = [];
 let luigiTower;
+let pearSpeed = 10;
 
 function preload() {
   bossBoo = loadImage("assets/bossBoo.png");
@@ -62,6 +63,9 @@ function draw() {
     theBoos[i].displayMinnionBoo();
     theBoos[i].ifMinnionHit();
     theBoos[i].playerHealthBar();
+    if (theBoos[i].displayMinnionBoo() > windowWidth) {
+      theBoos[i].shift;
+    }
   }
 
   luigiTower.update();
@@ -70,7 +74,7 @@ function draw() {
 }
 
 function spawnMinnion() {
-  let minBoo = new Minnion(3, 0, height / 2.2);
+  let minBoo = new Minnion(5, 0, height / 2.2);
   theBoos.push(minBoo);
 }
 
@@ -185,10 +189,15 @@ class Tower {
     this.y = y;
     this.shootingSpeed;
     this.selected = false;
+    this.circleX = 50;
+    this.circleY = 50;
   }
 
   displayLuigiTower() {
     image(luigi, this.x, this.y, luigiScaler * luigi.width, luigiScaler * luigi.height);
+
+    noFill("orange");
+    circle(this.x, this.y, luigiScaler * luigi.width, luigiScaler * luigi.height);
   }
   
   checkForClick() {
@@ -209,16 +218,15 @@ class Tower {
 
   displayPears() {
     image(pear, this.x, this.y, pearScaler * pear.width, pearScaler * pear.height);
+    
   }
 
-  movingPears() {
-    if () {
-      this.x = pearX;
-      this.y = pearY;
-      pearX++;
-      pearY++;
-    }
-  }
+  // movingPears() {
+  //   if () {
+  //     this.displayPears;
+  //     pearSpeed = this.shootingSpeed
+  //   }
+  // }
 } 
 
 function mousePressed() {
