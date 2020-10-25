@@ -63,9 +63,6 @@ function draw() {
     theBoos[i].displayMinnionBoo();
     theBoos[i].ifMinnionHit();
     theBoos[i].playerHealthBar();
-    if (theBoos[i].displayMinnionBoo() > windowWidth) {
-      theBoos[i].shift;
-    }
   }
 
   luigiTower.update();
@@ -76,6 +73,9 @@ function draw() {
 function spawnMinnion() {
   let minBoo = new Minnion(5, 0, height / 2.2);
   theBoos.push(minBoo);
+  if (theBoos >= windowWidth) {
+    theBoos.splice;
+  }
 }
 
 
@@ -189,15 +189,14 @@ class Tower {
     this.y = y;
     this.shootingSpeed;
     this.selected = false;
-    this.circleX = 50;
-    this.circleY = 50;
+    this.circleDiamiter = 500;
   }
 
   displayLuigiTower() {
-    image(luigi, this.x, this.y, luigiScaler * luigi.width, luigiScaler * luigi.height);
+    image(luigi, this.x/2, this.y/2, luigiScaler * luigi.width, luigiScaler * luigi.height);
 
     noFill("orange");
-    circle(this.x, this.y, luigiScaler * luigi.width, luigiScaler * luigi.height);
+    circle(this.x, this.y, this.circleDiamiter);
   }
   
   checkForClick() {
