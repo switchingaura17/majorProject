@@ -190,6 +190,8 @@ class Tower {
     this.shootingSpeed;
     this.selected = false;
     this.circleDiamiter = 500;
+    this.mouseX = ;
+    this.mouseY;
   }
 
   displayLuigiTower() {
