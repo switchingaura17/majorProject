@@ -28,3 +28,5 @@ i am building a grid based tower defense
 -adding an added bonus after the first 50 levels, then after restart and next 50 would be nice to have more if time allows
 
 -adding a proper level counter
+
+-shooting the bullet at the enemies
