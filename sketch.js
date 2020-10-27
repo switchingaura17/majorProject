@@ -226,9 +226,9 @@ class Tower {
 } 
 
 function mousePressed() {
-  placeTower.checkForClick();
+  luigiTower.checkForClick();
 }
 
 function mouseReleased() {
-  placeTower.endClick();
+  luigiTower.endClick();
 }
