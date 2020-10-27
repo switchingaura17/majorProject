@@ -7,14 +7,7 @@ const GRIDSIZE = 25;
 let bossBoo, bossBooScaler = 0.5; 
 let minnionBoo, hit = 50, minnionBooScaler = 0.3, luigiScaler = 0.3, pearScaler = 0.3;
 let baseMap, initialState;
-let pear;
-let round50 = false;
-let luigi;
-let roundNumber = 0;
-let milli;
-let theBoos = [];
-let luigiTower;
-let pearSpeed = 10;
+let pear, luigi, milli, theBoos = [], luigiTower, placeTower = [];
 
 function preload() {
   bossBoo = loadImage("assets/bossBoo.png");
@@ -44,7 +37,7 @@ function setup() {
 
   milli = millis();
 
-  luigiTower = new Tower(50, 100, 10);
+  
   grid = baseMap;
   cellWidth = width / grid[0].length;
   cellHeight = height / grid.length;
@@ -65,9 +58,19 @@ function draw() {
     theBoos[i].playerHealthBar();
   }
 
-  luigiTower.update();
-  luigiTower.displayLuigiTower();
-  // moveMinnionBoo.set("minnionBoo", 2);
+ 
+  for (let i=0; i<placeTower.length; i++) {
+    placeTower[i].update();
+    placeTower[i].displayPears();
+    placeTower[i].displayLuigiTower();
+  }
+}
+
+function spawnLuigiTower() {
+  let luigiTower = new Tower(50, 100);
+  if (placeTower.checkForClick()) {
+    placeTower.push(luigiTower);
+  }
 }
 
 function spawnMinnion() {
@@ -113,15 +116,6 @@ class Minnion {
     this.speed = speed;
     this.state = 1;
   }
-
-  // use as a boolean and reset using a function outside of class
-  // resetAfter50() {
-  //   for (roundNumber = 0; roundNumber < 50; roundNumber += 2) {
-  //     if (roundNumber === 50) {
-  //       console.log(roundNumber);
-  //     }
-  //   }
-  // }
 
   movingMinnion() {
     if (this.state === 1) {
@@ -184,20 +178,23 @@ class Minnion {
 }
 
 class Tower {
-  constructor(x, y, shootingSpeed) {
+  constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.shootingSpeed;
+    this.bulletY = 100;
+    this.bulletX = 50;
+    this.bulletDX= 5;
+    this.pearArray = [];
     this.selected = false;
     this.circleDiamiter = 500;
-    this.mouseX = ;
-    this.mouseY;
+    // this.mouseX = ;
+    // this.mouseY;
   }
 
   displayLuigiTower() {
-    image(luigi, this.x/2, this.y/2, luigiScaler * luigi.width, luigiScaler * luigi.height);
+    image(luigi, this.x, this.y, luigiScaler * luigi.width, luigiScaler * luigi.height);
 
-    noFill("orange");
+    noFill();
     circle(this.x, this.y, this.circleDiamiter);
   }
   
@@ -206,6 +203,7 @@ class Tower {
       this.selected = true;
     }
   }
+
   endClick() {
     this.selected = false;
   }
@@ -218,22 +216,19 @@ class Tower {
   }
 
   displayPears() {
-    image(pear, this.x, this.y, pearScaler * pear.width, pearScaler * pear.height);
+    image(pear, this.bulletX, this.bulletY, pearScaler * pear.width, pearScaler * pear.height);
     
   }
 
-  // movingPears() {
-  //   if () {
-  //     this.displayPears;
-  //     pearSpeed = this.shootingSpeed
-  //   }
-  // }
+  movingPears() {
+    this.circleX += this.circleDX;
+  }
 } 
 
 function mousePressed() {
-  luigiTower.checkForClick();
+  placeTower.checkForClick();
 }
 
 function mouseReleased() {
-  luigiTower.endClick();
+  placeTower.endClick();
 }
